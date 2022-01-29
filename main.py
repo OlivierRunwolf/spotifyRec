@@ -21,10 +21,11 @@ def searchUser():
     elif output['error']['status'] == 400 :
         return "Error User Not found"
 
-
+@app.route('/artists-user')
 def listArtistUser (userId):
-    response = requests.get("http://api.open-notify.org/astros.json")
-    return True
+    query={'type':"artist", 'after':"246dkjvS1zLTtiykXe5h60", 'limit':50 }
+    response = requests.get("http://api.open-notify.org/astros.json/me/following", params=query)
+    print(response)
 
 @app.route('/related-artists')
 def listrelatedArtists():
