@@ -15,11 +15,11 @@ def searchUser():
     userId = request.forms.get('userID')
     output = spotify.user(userId)
     print(output)
-    if 'error' not in output:
+    try:
         print(output)
         return listArtistUser(output)
-    elif output['error']['status'] == 400 :
-        return "Error User Not found"
+    except requests.exceptions.HTTPError:
+        return "HTTP ERROR"
 
 #@app.route('/callback')
 def callback():
