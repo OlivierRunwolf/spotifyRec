@@ -13,15 +13,23 @@
 </head>
 <body>
 <div class="px-4 py-5 my-5 text-center">
-    <img class="d-block mx-auto mb-4" src="https://play-lh.googleusercontent.com/UrY7BAZ-XfXGpfkeWg0zCCeo-7ras4DCoRalC_WXXWTK9q5b0Iw7B0YQMsVxZaNB7DM" alt="">
+    <img class="d-block mx-auto mb-4"
+         src="https://play-lh.googleusercontent.com/UrY7BAZ-XfXGpfkeWg0zCCeo-7ras4DCoRalC_WXXWTK9q5b0Iw7B0YQMsVxZaNB7DM"
+         alt="">
     <h1 class="display-5 fw-bold">Centered hero</h1>
     <div class="col-lg-6 mx-auto">
-        <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most
-            popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system,
-            extensive prebuilt components, and powerful JavaScript plugins.</p>
+        <p class="lead mb-4">Search the users</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+            <form action="/search" method="post">
+                <div class="form-group">
+                    <label for="userId">User ID</label>
+                    <input type="name" name="userID" class="form-control" id="userId" aria-describedby="emailHelp"
+                           placeholder="Enter">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </div>
 </div>
