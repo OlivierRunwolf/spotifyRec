@@ -11,8 +11,10 @@
 </head>
 <body>
 
+% if defined('username'):
+    <h1 class="display-5 fw-bold">Hello {{username}}!</h1>
+% end
 
-<h1 class="display-5 fw-bold">{{Centered}} hero</h1>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

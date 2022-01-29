@@ -1,4 +1,4 @@
-from bottle import Bottle, run, static_file, request
+from bottle import Bottle, run, static_file, request, response, template
 import json
 import requests
 
@@ -15,17 +15,22 @@ def searchUser():
     my_headers = {'Authorization': appTOKEN}
     response = requests.get("https://api.spotify.com/v1/users/%s"%userId,headers=my_headers)
     output = response.json()
-    print(output)
+    print(str(output['display_name']))
     if 'error' not in output:
-        return output
+        #output['display_name']
+        print(output)
+        return listArtistUser(output)
     elif output['error']['status'] == 400 :
         return "Error User Not found"
 
-@app.route('/artists-user')
-def listArtistUser (userId):
-    query={'type':"artist", 'after':"246dkjvS1zLTtiykXe5h60", 'limit':50 }
-    response = requests.get("http://api.open-notify.org/astros.json/me/following", params=query)
-    print(response)
+@app.route('/result')
+@app.route('/result/search/<name>')
+def listArtistUser(user):
+    #
+    #
+    #
+    #....
+    return template('search',username=user['display_name'])
 
 @app.route('/related-artists')
 def listrelatedArtists():
@@ -39,4 +44,4 @@ def listrelatedArtists():
     elif output['error']['status'] == 400 :
         return "Error No related artists found found"
 
-run(app, host='localhost', port=8080, reloader=True)
+run(app, host='localhost', port=8080)
