@@ -18,4 +18,8 @@ def hello2():
     print(response)
     return "false"
 
+def listArtistUser (STring userId):
+    response = requests.get("http://api.open-notify.org/astros.json")
+
+
 run(app, host='localhost', port=8080)
