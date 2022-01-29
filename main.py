@@ -1,9 +1,21 @@
 from bottle import Bottle, run
+import requests
 
 app = Bottle()
 
-@app.route('/hello')
+@app.route('/spotify')
 def hello():
-    return "Hello World!"
+
+    print("....")
+
+
+    return "Hello SPOTI!!!!"
+
+
+
+def hello2():
+    response = requests.get("http://api.open-notify.org/astros.json")
+    print(response)
+    return "false"
 
 run(app, host='localhost', port=8080)
