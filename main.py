@@ -13,13 +13,14 @@ def main(filename):
 @app.route('/search',method='POST')
 def searchUser():
     userId = request.forms.get('userID')
-    output = spotify.user(userId)
-    print(output)
+
     try:
+        output = spotify.user(userId)
         print(output)
         return listArtistUser(output)
-    except requests.exceptions.HTTPError:
-        return "HTTP ERROR"
+    except:
+        output = {'display_name': ''}
+        return listArtistUser(output)
 
 #@app.route('/callback')
 def callback():
