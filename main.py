@@ -1,10 +1,9 @@
-from bottle import Bottle, run, static_file, request, response, template
-import requests,spotipy, json
-from spotipy.oauth2 import SpotifyClientCredentials
+from bottle import Bottle, run, static_file, request, template
+import json
+import requests
 
 app = Bottle()
-spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
-
+appTOKEN = "Bearer BQACOQOb7VpI2JzrWWABEsgJoH22opHcFZX2aei9okERo1t9EdU2f3Ey38iZlsxwtYMAQYYBruMQHJatXUKlGtCuhsljiBj063Sl8keIIRd3UHCdNMBA8cAtDDnLnn-0p6CzVxc8Cl3--ptivosxd9WmZqIYmNa441IEc2fRYYkkysyocg"
 #Method to display webpages
 @app.route('/<filename>')
 def main(filename):
@@ -13,19 +12,21 @@ def main(filename):
 @app.route('/search',method='POST')
 def searchUser():
     userId = request.forms.get('userID')
-    output = spotify.user(userId)
+    my_headers = {'Authorization': appTOKEN}
+    response = requests.get("https://api.spotify.com/v1/users/%s"%userId,headers=my_headers)
+    output = response.json()
     print(output)
-
     if 'error' not in output:
         #output['display_name']
         print(output)
-        return listArtistUser(output)
+
+        return listArtistUser(userId)
     elif output['error']['status'] == 400 :
         return "Error User Not found"
 
-@app.route('/callback')
+#@app.route('/callback')
 def callback():
-    print(response)
+    print('response')
     return False
 
 @app.route('/result')
@@ -35,7 +36,13 @@ def listArtistUser(user):
     #
     #
     #....
-    return template('search',username=user['display_name'])
+    my_params = {'limit': 50, 'offset': 0, 'time-range': 'medium_term'}
+    my_headers = {'Authorization': appTOKEN}
+    response = requests.get('https://api.spotify.com/v1/me/top/artists', headers=my_headers, params=my_params)
+    output = response.json()['items']
+    for artist in output:
+        print(artist['name'])
+    return template('search', username=user['display_name'])
 
 @app.route('/related-artists')
 def listrelatedArtists():
