@@ -3,7 +3,7 @@ import json
 import requests
 
 app = Bottle()
-appTOKEN = "Bearer BQDHOpu3aJsb9XrUjVIkd58e6SYYx5ip5mSMSFrGVagG-AalLsu5bd7PF8h0oXlfWwhTgRY6ZFHodPsuQsbxUNLTLtcf2C-Z_W14RWcJfgR7ifmJBlvQqLGhDaO6Y7hKlz2YXpiCKD746IyqcNJZ8zNwwU9ZMlbcvX0"
+appTOKEN = "Bearer BQACOQOb7VpI2JzrWWABEsgJoH22opHcFZX2aei9okERo1t9EdU2f3Ey38iZlsxwtYMAQYYBruMQHJatXUKlGtCuhsljiBj063Sl8keIIRd3UHCdNMBA8cAtDDnLnn-0p6CzVxc8Cl3--ptivosxd9WmZqIYmNa441IEc2fRYYkkysyocg"
 #Method to display webpages
 @app.route('/<filename>')
 def main(filename):
@@ -15,13 +15,21 @@ def searchUser():
     my_headers = {'Authorization': appTOKEN}
     response = requests.get("https://api.spotify.com/v1/users/%s"%userId,headers=my_headers)
     output = response.json()
-    print(str(output['display_name']))
+    print(output)
     if 'error' not in output:
         #output['display_name']
         print(output)
+
+
+
         return listArtistUser(output)
     elif output['error']['status'] == 400 :
         return "Error User Not found"
+
+@app.route('/callback')
+def callback():
+    print(response)
+    return False
 
 @app.route('/result')
 @app.route('/result/search/<name>')
