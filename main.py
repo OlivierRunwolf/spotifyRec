@@ -37,6 +37,6 @@ def listrelatedArtists():
     if 'error' not in output:
         return output
     elif output['error']['status'] == 400 :
-        return "Error User Not found"
+        return "Error No related artists found found"
 
 run(app, host='localhost', port=8080, reloader=True)
