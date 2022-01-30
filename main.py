@@ -75,12 +75,12 @@ def callback():
     print(request.query['code'])
     token = getAcessToken(request.query['code'])
     print(token)
-    sp = spotipy.Spotify(auth=token)
+    sp = spotipy.Spotify(auth="BQAmXKD8I_wS6aayqA9NWi95934NMHQlQ6WcYi2opNQIrZ32jnYLl2-1NTnfZVTcR1VG4SAOuvbVoYdnUNAzdJsmcg2V61mteZDXw_0UzKfYUyt_9nZvuQndM3NWT1RHPTtzV7QuYqTYDpd5RzPb-nsCmS00hQ293w0H9SPQw8EUjg")
     print(sp.current_user())
     list_rec_tracks = generateListRecommendedTracks(sp)
 
-    for track in list_rec_tracks:
-        print(str(track['artists'])+'\n\n')
+    for tracks in list_rec_tracks:
+        print(str(tracks)+'\n\n')
     # sp = spotipy.Spotify(
     #     auth="BQB8RKRLGERXt5JGLqP8obvIeB-aFYUHBDvMLz9FbjodwSXcz8DO7rRrM_rnS8mjByfHI4nlksGuTzm3-msEGnXyzXo5zrwtMeXShAbxBXG54QHVxueW44kr0ITNtSD4rQfQ1QYkRxrwQeDPy_rpDkZj7evuAL6ea6hYc-1K1pG0")
     # print(sp.current_user_top_artists())
