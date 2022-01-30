@@ -42,7 +42,7 @@ def login():
 @app.route('/generate')
 def generateToken():
     redirect(
-        'https://accounts.spotify.com/authorize?response_type=code&client_id=3441111ba643438aa09f7aa0d8680561&redirect_uri=http://localhost:8888/callback')
+        'https://accounts.spotify.com/authorize?response_type=code&client_id=3441111ba643438aa09f7aa0d8680561&redirect_uri=http://localhost:8888/callback&scope=user-top-read')
 
 
 def getAcessToken(code):
