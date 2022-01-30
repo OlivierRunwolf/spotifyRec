@@ -2,10 +2,12 @@
 Spotify recommandation program
 
 Developer team:
--Oliver Renouf
--Guillaume Lachapelle
--Amine Halimi
--Oliver Vilney
+-Oliver Renouf: Backend/Frontend
+-Guillaume Lachapelle: Frontend
+-Amine Halimi: Backend
+-Oliver Vilney: Frontend/Logo Designer
 
 Short description
-This is a Web application that returns a list of song recommendations for a given Spotify user.
+This application was created in under 24 hours for the Hackathon ConUhacks 2022.
+This is a web application that gives a list of recommended songs to a Spotify user.
+This project is mainly coded in Python for the web framework with the Bottle library.
