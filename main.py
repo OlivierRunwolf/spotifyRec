@@ -81,7 +81,7 @@ def callback():
     list_rec_tracks = generateListRecommendedTracks(sp)
 
     for track in list_rec_tracks:
-        print(track['artists'])
+        print(str(track['artists'])+'\n\n')
     # sp = spotipy.Spotify(
     #     auth="BQB8RKRLGERXt5JGLqP8obvIeB-aFYUHBDvMLz9FbjodwSXcz8DO7rRrM_rnS8mjByfHI4nlksGuTzm3-msEGnXyzXo5zrwtMeXShAbxBXG54QHVxueW44kr0ITNtSD4rQfQ1QYkRxrwQeDPy_rpDkZj7evuAL6ea6hYc-1K1pG0")
     # print(sp.current_user_top_artists())
