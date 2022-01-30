@@ -9,27 +9,85 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Title</title>
 </head>
+<style>
+  
+  .container a {
+  color: #FF0000;
+  text-decoration: none;
+}
+a:link {
+  color:white;
+  background-color: transparent;
+  text-decoration: none;
+
+}
+
+
+a:hover {
+  color: rgb(235, 149, 143);
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+</style>
 <body>
 
-
-<table>
+  <div class="row justify-content-center">
+    <div class="col-auto">
+<table class="table table-striped table-dark">
   <tr>
-    <th>Company</th>
-    <th>Contact</th>
+    <th>Artist</th>
+    <th>Album</th>
+    <th>Song</th>
     <th>Country</th>
   </tr>
   <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
+    <td>
+      <a href=" Artists spotify page"> 
+      <div class="text-center">
+      <img src=" Artist image" class="rounded" alt="Artist image" >
+    </div>
+      
+    <button type="button" class="btn btn-light"> Name</button>
+      </a>
+  </td>
+    <td><div><a href="" ><button type="button" class="btn btn-secondary">gogogo</button></a></div> </td>
+    <td><div><a href="" ><button type="button" class="btn btn-secondary">Maria Anders</button></a></div></td>
+    <td><div><a href="" ><button type="button" class="btn btn-secondary">Germany</button></a></div></td>
   </tr>
   <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
+    <td>   <a href=" Artists spotify page"> 
+      <div class="text-center">
+      <img src=" Artist image" class="rounded" alt="Artist image" >
+    </div>
+      
+    <button type="button" class="btn btn-light"> Name</button>
+      </a></td>
+    <td><a href="" >Centro comercial Moctezuma</a></td>
+    <td><a href="" >Centro comercial Moctezuma</a></td>
+    <td><a href="" >Mexico</a></td>
   </tr>
-</table>
+  <tr>
+    <td>    <a href=" Artists spotify page"> 
+      <div class="text-center">
+      <img src=" Artist image" class="rounded" alt="Artist image" >
+      </div>
+      <button type="button" class="btn btn-light"> Name</button>
+  </a></td>
+  <td><a href="" >Centro comercial Moctezuma</a></td>
+  <td><a href="" >Centro comercial Moctezuma</a></td>
+  <td><a href="" >Mexico</a></td>
+  </tr>
 
+</table>
+<div>
+  <div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>

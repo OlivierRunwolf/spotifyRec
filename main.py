@@ -14,7 +14,6 @@ SPOTIPY_REDIRECT_URI = 'http://localhost:8888/callback'
 SCOPE = 'user-library-read'
 CACHE = '.spotipyoauthcache'
 
-spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 
 
 # Method to display webpages
