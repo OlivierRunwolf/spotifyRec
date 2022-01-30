@@ -60,16 +60,29 @@ def searchUser():
         output = {'display_name': ''}
         return listArtistUser(output)
 
+#@app.route('/callback')
+def callback():
+    print('response')
+    return False
 
 @app.route('/result')
 @app.route('/result/search/<name>')
 def listArtistUser(user):
-    #
-    #
-    #
-    # ....
+    top_artists = spotify.current_user_top_artists(limit=5, offset=0, time_range='medium_term')
+    output = top_artists['items']
+    top_artists_id = []
+    for x in top_artists_id:
+        top_artists_id.append(x['id'])
     return template('search', username=user['display_name'])
 
+def generateListRecommendedTracks():
+    recommendedTracks = [1]
+
+    return recommendedTracks
+#
+def listUnlistenedTracksFromUserTopArtists(user_id):
+
+def listTracksFromRelatedArtists(artist_id):
 
 @app.route('/related-artists')
 def listrelatedArtists(artist_id):
@@ -83,17 +96,26 @@ def listrelatedArtists(artist_id):
     # elif output['error']['status'] == 400 :
     #     return "Error No related artists found found"
 
-    # Access to
+    #Access to
     artist_uri = 'spotify:artist:' + artist_id
     spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
-    # Gets the list of related artists
+    #Gets the list of related artists
     results = spotify.artist_related_artists(artist_uri)
     rel_artists = results['artists']
     for rel_art in rel_artists:
+        # top track file for each artists
         rel_art_URI = 'spotify:artist:' + rel_art['id']
         topTracksFile = spotify.artist_top_tracks(rel_art_URI)
         topTracks = topTracksFile['tracks']
+
         print(rel_art['name'])
+        sizeTopTracks = len(topTracks)
+        # track1Number = random.randint(0,sizeTopTracks-2)
+        # track2Number = random.randint(0,sizeTopTracks-2)
+        # track3Number = random.randint(0,sizeTopTracks-2)
+        # print(topTracks[track1Number]['name'], ",", topTracks[track2Number]['name'], ",", topTracks[track3Number]['name'], "\n")
+        randomTracks = random.sample(range(0, sizeTopTracks), 3)
+        print(topTracks[randomTracks[0]]['name'], ";", topTracks[randomTracks[1]]['name'], ";", topTracks[randomTracks[2]]['name'], "\n")
 
 
 run(app, host='localhost', port=8888, reloader=True)
