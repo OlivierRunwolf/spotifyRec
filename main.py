@@ -80,12 +80,17 @@ def callback():
     list_rec_tracks = generateListRecommendedTracks(sp)
 
     for track in list_rec_tracks:
-        print(track['artists'])
+        print(str(track['artists'])+'\n\n')
     # sp = spotipy.Spotify(
     #     auth="BQB8RKRLGERXt5JGLqP8obvIeB-aFYUHBDvMLz9FbjodwSXcz8DO7rRrM_rnS8mjByfHI4nlksGuTzm3-msEGnXyzXo5zrwtMeXShAbxBXG54QHVxueW44kr0ITNtSD4rQfQ1QYkRxrwQeDPy_rpDkZj7evuAL6ea6hYc-1K1pG0")
     # print(sp.current_user_top_artists())
-    return "phey"
+    return listArtistUser(list_rec_tracks)
 
+@app.route('/result')
+@app.route('/result/search/<name>')
+def listArtistUser(tracks):
+
+    return template('result', tracks=tracks)
 
 @app.route('/search', method='POST')
 def searchUser():
@@ -98,18 +103,6 @@ def searchUser():
     except:
         output = {'display_name': ''}
         return listArtistUser(output)
-
-
-@app.route('/result')
-@app.route('/result/search/<name>')
-def listArtistUser(user):
-    top_artists = spotify.current_user_top_artists(limit=5, offset=0, time_range='medium_term')
-    output = top_artists['items']
-    top_artists_id = []
-    for x in top_artists_id:
-        top_artists_id.append(x['id'])
-    return template('search', username=user['display_name'])
-
 
 def generateListRecommendedTracks(spotify):
     listUserTopArtist = getTopArtists(spotify)
