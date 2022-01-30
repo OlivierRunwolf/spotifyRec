@@ -1,4 +1,5 @@
 from gevent import monkey;
+import random
 
 monkey.patch_all()
 from bottle import Bottle, run, static_file, request, template, response
@@ -43,7 +44,8 @@ def login():
 @app.route('/callback')
 def callback():
     # print(request.query['code'])
-    sp = spotipy.Spotify(auth="BQB8RKRLGERXt5JGLqP8obvIeB-aFYUHBDvMLz9FbjodwSXcz8DO7rRrM_rnS8mjByfHI4nlksGuTzm3-msEGnXyzXo5zrwtMeXShAbxBXG54QHVxueW44kr0ITNtSD4rQfQ1QYkRxrwQeDPy_rpDkZj7evuAL6ea6hYc-1K1pG0")
+    sp = spotipy.Spotify(
+        auth="BQB8RKRLGERXt5JGLqP8obvIeB-aFYUHBDvMLz9FbjodwSXcz8DO7rRrM_rnS8mjByfHI4nlksGuTzm3-msEGnXyzXo5zrwtMeXShAbxBXG54QHVxueW44kr0ITNtSD4rQfQ1QYkRxrwQeDPy_rpDkZj7evuAL6ea6hYc-1K1pG0")
     print(sp.current_user())
     return "phey"
 
@@ -60,10 +62,12 @@ def searchUser():
         output = {'display_name': ''}
         return listArtistUser(output)
 
-#@app.route('/callback')
+
+# @app.route('/callback')
 def callback():
     print('response')
     return False
+
 
 @app.route('/result')
 @app.route('/result/search/<name>')
@@ -75,14 +79,20 @@ def listArtistUser(user):
         top_artists_id.append(x['id'])
     return template('search', username=user['display_name'])
 
+
 def generateListRecommendedTracks():
     recommendedTracks = [1]
 
     return recommendedTracks
+
+
 #
 def listUnlistenedTracksFromUserTopArtists(user_id):
+    return False
 
-def listTracksFromRelatedArtists(artist_id):
+# def listTracksFromRelatedArtists(artist_id):
+#     return False
+
 
 @app.route('/related-artists')
 def listrelatedArtists(artist_id):
@@ -96,12 +106,13 @@ def listrelatedArtists(artist_id):
     # elif output['error']['status'] == 400 :
     #     return "Error No related artists found found"
 
-    #Access to
+    # Access to
     artist_uri = 'spotify:artist:' + artist_id
     spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
-    #Gets the list of related artists
+    # Gets the list of related artists
     results = spotify.artist_related_artists(artist_uri)
     rel_artists = results['artists']
+
     for rel_art in rel_artists:
         # top track file for each artists
         rel_art_URI = 'spotify:artist:' + rel_art['id']
@@ -115,7 +126,8 @@ def listrelatedArtists(artist_id):
         # track3Number = random.randint(0,sizeTopTracks-2)
         # print(topTracks[track1Number]['name'], ",", topTracks[track2Number]['name'], ",", topTracks[track3Number]['name'], "\n")
         randomTracks = random.sample(range(0, sizeTopTracks), 3)
-        print(topTracks[randomTracks[0]]['name'], ";", topTracks[randomTracks[1]]['name'], ";", topTracks[randomTracks[2]]['name'], "\n")
+        print(topTracks[randomTracks[0]]['name'], ";", topTracks[randomTracks[1]]['name'], ";",
+              topTracks[randomTracks[2]]['name'], "\n")
 
 
-run(app, host='localhost', port=8888, reloader=True)
+run(app, host='localhost', port=8080, reloader=True)
