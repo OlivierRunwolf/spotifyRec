@@ -1,7 +1,5 @@
-from gevent import monkey;
 import random
 
-monkey.patch_all()
 from bottle import Bottle, run, static_file, request, template, response
 import json
 import requests, spotipy
@@ -45,8 +43,13 @@ def login():
 def callback():
     # print(request.query['code'])
     sp = spotipy.Spotify(
-        auth="BQB8RKRLGERXt5JGLqP8obvIeB-aFYUHBDvMLz9FbjodwSXcz8DO7rRrM_rnS8mjByfHI4nlksGuTzm3-msEGnXyzXo5zrwtMeXShAbxBXG54QHVxueW44kr0ITNtSD4rQfQ1QYkRxrwQeDPy_rpDkZj7evuAL6ea6hYc-1K1pG0")
+        auth="BQCFX4zO0OLGaty80iz8ubnEi__7rw9CDia8ihKMtKClDvvoLHIPIQJQjFv-jZT-_JVU9agxRskhJ8IEtBXHoS0Bbaim7wolX-Nv8St5xnElrd-6UvlTyp4GIrUpQTdhnSxC1YL-cskS3xTTHUPGtQFeGj-4UA3Rs-f39wjOBNdnJfTPTfTKhL7q78ZpiScgEGLRoKyb")
     print(sp.current_user())
+    list_rec_tracks = generateListRecommendedTracks(sp)
+
+    for track in list_rec_tracks:
+        print(track['artists'])
+
     return "phey"
 
 
@@ -62,13 +65,6 @@ def searchUser():
         output = {'display_name': ''}
         return listArtistUser(output)
 
-
-# @app.route('/callback')
-def callback():
-    print('response')
-    return False
-
-
 @app.route('/result')
 @app.route('/result/search/<name>')
 def listArtistUser(user):
@@ -79,19 +75,77 @@ def listArtistUser(user):
         top_artists_id.append(x['id'])
     return template('search', username=user['display_name'])
 
+def generateListRecommendedTracks(spotify):
+    listUserTopArtist = getTopArtists(spotify)
+    #Gets a set of all the artists related to the top artists
+    setRelatedArtists = getRelatedArtists(listUserTopArtist, spotify)
 
-def generateListRecommendedTracks():
-    recommendedTracks = [1]
+    #Filters the list of related artists by removing elements that are in the user's top artists
+    listRelatedArtists = []
+    for rel_art in setRelatedArtists:
+        if rel_art not in listUserTopArtist:
+            listRelatedArtists.append(rel_art)
 
-    return recommendedTracks
+    #Get tracks from the related artists
+    list_tracks_rel_artists = getTracksFromArtists(listRelatedArtists, spotify)
 
+    list_chosen_tracks = []
+    size_tracks_rel_artists = len(list_tracks_rel_artists)
+    #If the amount of tracks is less or equal to 50, then it returns the list as is
+    if size_tracks_rel_artists <= 50:
+        list_chosen_tracks = list_tracks_rel_artists
+    #Otherwise, it chooses 50 different tracks from the big list of artists
+    else:
+        randomTracksIndices = random.sample(range(0, size_tracks_rel_artists), 50)
+        for index in randomTracksIndices:
+            list_chosen_tracks.append(list_tracks_rel_artists[index])
+    return list_chosen_tracks
 
-#
-def listUnlistenedTracksFromUserTopArtists(user_id):
-    return False
+#Gets the top 50 artists from a user
+def getTopArtists(spotify):
+    #Get access to the user's top artists
+    results = spotify.current_user_top_artists(limit=50, offset=0, time_range='medium_term')
+    topArtists = results['items']
+    #Generate list of top artists
+    top_artists_id = []
+    for x in top_artists_id:
+        top_artists_id.append(x)
+    return topArtists
 
-# def listTracksFromRelatedArtists(artist_id):
-#     return False
+#Getting a set of related artists
+def getRelatedArtists(list_artists, spotify):
+    #initialize set
+    set_related_artists = []
+    #For each artist, find the top 3 related artists
+    for artist in list_artists:
+        #Get access to an artist's related artists
+        artist_URI = 'spotify:artist:' + artist['id']
+        results = spotify.artist_related_artists(artist_URI)
+        artistRelatedArtists = results['artists']
+
+        #Chooses the top 3 related artists and insert them in this list
+        set_related_artists.append(artistRelatedArtists[0])
+        set_related_artists.append(artistRelatedArtists[1])
+        set_related_artists.append(artistRelatedArtists[2])
+    return set_related_artists
+
+#Chooses 3 random tracks from each of the artist in the passed list
+def getTracksFromArtists(list_artists, spotify):
+    #initializing the list
+    listTracks = []
+    for artist in list_artists:
+        #Get request to the artist's top tracks
+        artist_URI = 'spotify:artist:' + artist['id']
+        results = spotify.artist_top_tracks(artist_URI)
+        artist_tracks = results['tracks']
+
+        #Chooses three different tracks randomnly and put it in listTracks
+        sizeTracks = len(artist_tracks)
+        randomTracksIndices = random.sample(range(0, sizeTracks), 3)
+        listTracks.append(artist_tracks[randomTracksIndices[0]])
+        listTracks.append(artist_tracks[randomTracksIndices[1]])
+        listTracks.append(artist_tracks[randomTracksIndices[2]])
+    return listTracks
 
 
 @app.route('/related-artists')
