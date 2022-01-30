@@ -17,26 +17,18 @@ CACHE = '.spotipyoauthcache'
 
 
 # Method to display webpages
-@app.route('/<filename>')
-def main(filename):
-    return static_file(filename, root='view/main')
+@app.route('/')
+def main():
+    return static_file('index.html', root='view/main')
 
+#ROUTES
+@app.route("/css/<filename>")
+def css(filename):
+    return static_file(filename, root="views/audio/src/css")
 
-@app.route('/spot')
-def login():
-    #   print(request.query['code'])
-    sp = spotipy.Spotify(
-        auth_manager=SpotifyOAuth(
-            client_id="3441111ba643438aa09f7aa0d8680561",
-            client_secret="80967271ad8b4fc19f8e6274bd93eb2e",
-            redirect_uri="http://localhost:8080/callback",
-            scope="user-library-read"
-        )
-    )
-    # sp = spotipy.Spotify(auth=str(request.query['code']))
-    results = sp.current_user()
-    print(results)
-
+@app.route("/js/<filename>")
+def js(filename):
+    return static_file(filename, root="views/audio/src/js")
 
 @app.route('/generate')
 def generateToken():
@@ -62,7 +54,7 @@ def refreshAcessToken(code):
     sample_string = SPOTIPY_CLIENT_ID + ":" + SPOTIPY_CLIENT_SECRET
     sample_string_bytes = sample_string.encode("ascii")
 
-    my_headers = {'Authorization': 'Bearer ' + str(base64.b64encode(sample_string_bytes)),
+    my_headers = {'Authorization': 'Basic ' + str(base64.b64encode(sample_string_bytes)),
                   'Content-Type': 'application/x-www-form-urlencoded'}
     response = requests.get("https://accounts.spotify.com/api/token", params=query, headers=my_headers)
     print(response.json())
@@ -75,7 +67,7 @@ def callback():
     print(request.query['code'])
     token = getAcessToken(request.query['code'])
     print(token)
-    sp = spotipy.Spotify(auth="BQAmXKD8I_wS6aayqA9NWi95934NMHQlQ6WcYi2opNQIrZ32jnYLl2-1NTnfZVTcR1VG4SAOuvbVoYdnUNAzdJsmcg2V61mteZDXw_0UzKfYUyt_9nZvuQndM3NWT1RHPTtzV7QuYqTYDpd5RzPb-nsCmS00hQ293w0H9SPQw8EUjg")
+    sp = spotipy.Spotify(auth=token)
     print(sp.current_user())
     list_rec_tracks = generateListRecommendedTracks(sp)
 
