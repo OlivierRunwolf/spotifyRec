@@ -105,17 +105,6 @@ def searchUser():
         output = {'display_name': ''}
         return listArtistUser(output)
 
-
-
-def listArtistUser(user):
-    top_artists = spotify.current_user_top_artists(limit=5, offset=0, time_range='medium_term')
-    output = top_artists['items']
-    top_artists_id = []
-    for x in top_artists_id:
-        top_artists_id.append(x['id'])
-    return template('search', username=user['display_name'])
-
-
 def generateListRecommendedTracks(spotify):
     listUserTopArtist = getTopArtists(spotify)
     # Gets a set of all the artists related to the top artists
